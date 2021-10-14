@@ -59,22 +59,40 @@ class SwordOfferAlgo {
     }
     
     //MARK: - 剑指 Offer 11. 旋转数组的最小数字
-    // 二分查找
+    /**
+     把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。
+     输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。
+     例如，数组 [3,4,5,1,2] 为 [1,2,3,4,5] 的一个旋转，该数组的最小值为1。
+     
+     分析：我们考虑数组中的最后一个元素 2，
+     在最小值1 右侧的元素，它们的值一定都小于等于 2：[1，2]；
+     而在最小值1 左侧的元素，它们的值一定都大于等于2：[3，4，5]。
+     因此，我们可以根据这一条性质，通过二分查找的方法找出最小值。
+     */
+    // 1、二分查找法
     func minArray(_ numbers: [Int]) -> Int {
         if numbers.count == 0 {
             return 0
         }
         
+        // 左边界 low，右边界 high
         var low = 0
         var high = numbers.count - 1
         while low < high {
+            // 中点 mid
             let mid = low + (high - low) >> 1
+            
             if numbers[mid] < numbers[high] {
+                // mid值 < high值，说明当前mid在最小值右边，如 [5,1,2,3,4] => mid = 2，而min = 1
+                // 缩小右边界high位置到mid
                 high = mid
+                
             } else if numbers[mid] > numbers[high] {
+                // mid值 > high值，说明当前mid在最小值左边
+                // 缩小左边界low位置到mid+1
                 low = mid + 1
             } else {
-                // numbers[mid] == numbers[high]
+                // numbers[mid] == numbers[high] 有重复元素的存在，忽略右侧的值
                 high -= 1
             }
         }
@@ -82,7 +100,7 @@ class SwordOfferAlgo {
         return numbers[low]
     }
     
-    
+    // 2、暴力法
     func minArrayNormal(_ numbers: [Int]) -> Int {
         if numbers.count == 0 {
             return 0
@@ -100,7 +118,7 @@ class SwordOfferAlgo {
     }
     
     //MARK: - 剑指 Offer 21. 调整数组顺序使奇数位于偶数前面
-    // 双指针交互元素
+    // 双指针前后遍历，交换不符合条件的元素
     func exchange(_ nums: [Int]) -> [Int] {
         var arr = nums
         var left = 0
@@ -176,6 +194,11 @@ class SwordOfferAlgo {
     }
     
     //MARK: - 剑指 Offer 17. 打印从1到最大的n位数
+    /**
+     输入数字 n，按顺序打印出从 1 到最大的 n 位十进制数。比如输入 3，则打印出 1、2、3 一直到最大的 3 位数 999。
+     n = 1 -> 1...9 -> 10^1
+     n = 2 -> 1...99 -> 10^2
+     */
     func printNumbers(_ n: Int) -> [Int] {
         var arr = [Int]()
         if n == 0 {
@@ -273,6 +296,9 @@ class SwordOfferAlgo {
     }
     
     func quickSort(_ arr: inout [Int], _ k: Int, _ l: Int, _ r: Int) {
+        // 初始指针位置 l, r
+        // pivot参考值 arr[l]
+        // 快排核心逻辑：与pivot比较大小，小的放在左边，大的放在右边，最后将pivot从最左边移到序列中对应位置
         var i = l, j = r
         while i < j {
             while i < j, arr[j] >= arr[l] {
@@ -345,6 +371,7 @@ class SwordOfferAlgo {
         
         var pre: ListNode? = nil
         var cur: ListNode? = head
+        
         while cur != nil {
             let next = cur?.next
             cur?.next = pre
@@ -409,9 +436,11 @@ class SwordOfferAlgo {
     
     //MARK: - 剑指 Offer 18. 删除链表的节点
     func deleteNode(_ head: ListNode?, _ val: Int) -> ListNode? {
+        
         let dummy = ListNode(0, head)
         var pre: ListNode? = dummy
         var cur = head
+        
         while cur != nil {
             if cur!.val == val {
                 pre?.next = cur?.next
@@ -434,19 +463,25 @@ class SwordOfferAlgo {
             return ans
         }
         
+        // 初始插入根节点
         var queue = [TreeNode]()
         queue.append(root!)
+        
         while queue.count > 0 {
+            // 该层的所有结点
+            var levelNodes = [Int]()
+            // 暂存该层的长度，后续 queue.count 会发送改变
+            var levelLen = queue.count
             
-            var lines = [Int]()
-            var lineLen = queue.count
-            while lineLen > 0 {
-                lineLen -= 1
-
+            while levelLen > 0 {
+                levelLen -= 1
+                
+                // 队列：先进先出，当前层的队列元素依次出队
                 let node = queue.first
-                lines.append(node!.val)
+                levelNodes.append(node!.val)
                 queue.removeFirst()
-                                
+                       
+                // 下一层的队列元素依次入队
                 if let left = node!.left {
                     queue.append(left)
                 }
@@ -456,7 +491,7 @@ class SwordOfferAlgo {
                 }
             }
             
-            ans.append(lines)
+            ans.append(levelNodes)
         }
         
         return ans
@@ -464,7 +499,13 @@ class SwordOfferAlgo {
     
     //MARK: - 剑指 Offer 50. 第一个只出现一次的字符
     /**
-     首次遍历数组，字典存储元素出现次数；再次遍历数组，取出第一个 val == 1 的元素
+     题目：在字符串 s 中找出第一个只出现一次的字符。如果没有，返回一个单空格。 s 只包含小写字母。
+     输入：s = "abaccdeff"
+     输出：'b"
+     
+     分析：
+     1、首次遍历数组，字典存储元素出现次数；
+     2、再次遍历数组，取出第一个 val == 1 的元素
      */
     func firstUniqChar(_ s: String) -> Character {
         let defaultVal: Character = " "
@@ -472,6 +513,7 @@ class SwordOfferAlgo {
             return defaultVal
         }
         
+        // 1、字典存储元素出现次数
         var dic = [Character: Int]()
         for ch in s {
             var count = dic[ch] ?? 0
@@ -479,6 +521,7 @@ class SwordOfferAlgo {
             dic[ch] = count
         }
         
+        // 2、取出第一个 val == 1 的元素
         for ch in s {
             let count = dic[ch] ?? 0
             if count == 1 {
@@ -491,8 +534,7 @@ class SwordOfferAlgo {
     
     //MARK: - 剑指 Offer 55 - I. 二叉树的深度
     /**
-     深度优先级遍历
-     left，right 分别递归，取最大值 + 1
+     深度优先级遍历：left，right 分别递归，取最大值 + 1
      */
     func maxDepth(_ root: TreeNode?) -> Int {
         if root == nil {
@@ -503,8 +545,8 @@ class SwordOfferAlgo {
     }
     
     //MARK: - 剑指 Offer 57. 和为s的两个数字
-    // 超时
-    func twoSumNO(_ nums: [Int], _ target: Int) -> [Int] {
+    // 1、暴力法：超时
+    func overTime_twoSum(_ nums: [Int], _ target: Int) -> [Int] {
         if nums.count == 0 {
             return []
         }
@@ -521,7 +563,7 @@ class SwordOfferAlgo {
         return []
     }
     
-    // （本题的 nums 是 排序数组）双指针，左右查找
+    // 2、（本题的 nums 是 排序数组）双指针，左右查找
     func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
         if nums.count == 0 {
             return []
@@ -531,8 +573,10 @@ class SwordOfferAlgo {
         while l < r {
             let sum = nums[l] + nums[r]
             if sum > target {
+                // 说明右侧值大了，右指针向左移动
                 r -= 1
             } else if sum < target {
+                // 说明左侧值小了，左指针向右移动
                 l += 1
             } else {
                 return [nums[l], nums[r]]
@@ -543,18 +587,28 @@ class SwordOfferAlgo {
     }
     
     //MARK: - 剑指 Offer 57 - II. 和为s的连续正数序列
-    // 滑动窗口思想
+    /**
+     题目：输入一个正整数 target ，输出所有和为 target 的连续正整数序列（至少含有两个数）。
+     序列内的数字由小到大排列，不同序列按照首个数字从小到大排列。
+     输入：target = 9
+     输出：[[2,3,4],[4,5]]
+     
+     分析：滑动窗口思想
+     1、左边界最大值限制 limit = target / 2 比如：9 = 4 + 5，其中 左指针l 最大 = 4
+     2、调整左右边界，获取有效序列
+     3、得到一次有效结果后，调整左边界，继续下一次查询
+     */
     func findContinuousSequence(_ target: Int) -> [[Int]] {
         var ans = [[Int]]()
         
         var l = 1, r = 1, sum = 0, limit = target / 2
         while l <= limit {
             if sum < target {
-                // 右边界向右移动
+                // 右边界向右移动（窗口右边界向右滑动）
                 sum += r
                 r += 1
             } else if sum > target {
-                // 左边界向右移动, 减去左边界的值
+                // 左边界向右移动, 减去左边界的值（窗口左边界向右滑动）
                 sum -= l
                 l += 1
             } else {
@@ -563,10 +617,10 @@ class SwordOfferAlgo {
                 for i in l..<r {
                     seq.append(i)
                 }
-                
+                // 得到一个符合条件的序列
                 ans.append(seq)
                 
-                // 左边界向右移动
+                // 左边界向右移动，继续使用新的左边界起始的新窗口去查询另一个序列
                 sum -= l
                 l += 1
             }
@@ -576,7 +630,7 @@ class SwordOfferAlgo {
     }
     
     //MARK: - 剑指 Offer 52. 两个链表的第一个公共节点
-    // 原题不支持swift
+    // LeetCode原题不支持Swift输入
     /**
      双指针思想：两个链表分别向后遍历，若nodeA较短，nodeA结束了就指向nodeB头结点，如果两个链表有相交，nodeB结束之前，nodeA一定会赶上nodeB
      */
@@ -597,8 +651,12 @@ class SwordOfferAlgo {
     
     //MARK: - 剑指 Offer 68 - II. 二叉树的最近公共祖先
     //MARK: - 236. 二叉树的最近公共祖先
-    // 递归遍历: 左 or 右 or 本身
-    func lowestCommonAncestor(_ root: TreeNode?, _ p: TreeNode?, _ q: TreeNode?) -> TreeNode? {
+    /**
+     题目：给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
+     百度百科中最近公共祖先的定义为：“对于有根树 T 的两个节点 p、q，最近公共祖先表示为一个节点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+     */
+    // 递归遍历: 左 or 右 or 本身 （不好理解）
+    func lowestCommonAncestorOfficial(_ root: TreeNode?, _ p: TreeNode?, _ q: TreeNode?) -> TreeNode? {
         if root == nil || root === p || root === q {
             return root
         }
@@ -616,15 +674,64 @@ class SwordOfferAlgo {
         }
     }
     
+    // DFS思想
+    func lowestCommonAncestor(_ root: TreeNode?, _ p: TreeNode?, _ q: TreeNode?) -> TreeNode? {
+        // root为空
+        if root == nil {
+            return nil
+        }
+        
+        // 如果该节点就是左右节点中的一个，那么显然该节点就是答案
+        if root === p || root === q {
+            return root
+        }
+        
+        // 【整个过程为后续遍历过程】
+        // 【左】
+        // 1、分解为左子树的子问题
+        let left = lowestCommonAncestor(root?.left, p, q)
+        
+        // 【右】
+        // 2、分解为右子树的子问题
+        let right = lowestCommonAncestor(root?.right, p, q)
+        
+        // 【中】
+        // 3、如果左子树和右子树都得到结果，那么该节点即为公共祖先
+        if left != nil, right != nil {
+            return root
+        }
+        
+        if left != nil {
+            // 4、如果只有左子树有结果，那么证明左子树得到的节点即为公共祖先（p、q均在左子树）
+            return left
+        } else {
+            // 5、反之为右子树得到的结果
+            return right
+        }
+    }
+    
     //MARK: - 剑指 Offer 68 - I. 二叉搜索树的最近公共祖先
+    /**
+     二叉搜索树特性：左子树比根节点小，右子树比根节点大。
+     一次遍历法：利用BST性质，根据节点val的大小判断左右子树
+     
+     分析：
+     1、q < cur, p < cur。说明p、q 应该在当前节点的左子树，因此将当前节点移动到它的左子节点。
+     2、q > cur,  p < cur。说明p、q 应该在当前节点的右子树，因此将当前节点移动到它的左子节点。
+     3、如果当前节点的值不满足上述两条要求，那么说明当前节点就是「分岔点」。此时，p、q 要么在当前节点的左右不同子树中，要么其中一个就是当前节点。
+     4、递归得到最终分岔点。
+     */
     func lowestCommonAncestorBST(_ root: TreeNode?, _ p: TreeNode?, _ q: TreeNode?) -> TreeNode? {
         var ancestor = root
         while true {
             if p!.val < ancestor!.val, q!.val < ancestor!.val  {
+                // 说明p、q 应该在当前节点的左子树，因此将当前节点移动到它的左子节点
                 ancestor = ancestor?.left
             } else if p!.val > ancestor!.val, q!.val > ancestor!.val {
+                // 说明p、q 应该在当前节点的右子树，因此将当前节点移动到它的左子节点
                 ancestor = ancestor?.right
             } else {
+                // 如果当前节点的值不满足上述两条要求，那么说明当前节点就是「分岔点」。此时，p、q 要么在当前节点的左右不同子树中，要么其中一个就是当前节点。
                 break;
             }
         }
@@ -692,8 +799,8 @@ class SwordOfferAlgo {
     //MARK: - 剑指 Offer 55 - II. 平衡二叉树
     /**
      平衡二叉树的定义是：二叉树的每个节点的左右子树的高度差的绝对值不超过 1，则二叉树是平衡二叉树。
-     1、首先计算左右子树的高度，如果左右子树的高度差是否不超过 1
-     2、再分别递归地遍历左右子节点，并判断左子树和右子树是否平衡
+     1、首先计算左右子树的高度，判断左右子树的高度差是否不超过 1
+     2、再分别递归遍历左右子节点，并判断左子树和右子树是否平衡
      */
     func isBalanced(_ root: TreeNode?) -> Bool {
         if root == nil {
@@ -751,6 +858,13 @@ class SwordOfferAlgo {
     
     //MARK: - 剑指 Offer 53 - I. 在排序数组中查找数字 I
     /**
+     题目：统计一个数字在排序数组中出现的次数。
+     输入: nums = [5,7,7,8,8,10], target = 8
+     输出: 2
+     */
+    
+    /**
+     解决方法：
      way1、找到目标值「首次」出现的分割点，并「往后」进行统计
      way2、经过两次「二分」找到左右边界，计算总长度
      */
@@ -779,16 +893,28 @@ class SwordOfferAlgo {
     
     //MARK: - 剑指 Offer 53 - II. 0～n-1中缺失的数字
     /**
-     排序数组中的搜索问题，首先想到 二分法 解决
-     左侧 < 缺失的数字 < 右侧
+     题目：一个长度为n-1的递增排序数组中的所有数字都是唯一的，并且每个数字都在范围0～n-1之内。在范围0～n-1内的n个数字中有且只有一个数字不在该数组中，请找出这个数字。
+     输入: [0,1,3]
+     输出: 2
      */
-    func missingNumber(_ nums: [Int]) -> Int {
+    /**
+     一、【二分法】解析：
+     1、排序数组中的搜索问题，首先想到 【二分法】 解决
+     2、左子数组：nums[i] = i
+     3、右子数组：nums[i] != i
+     思路：左侧 < 缺失的数字 < 右侧
+     缺失的数字等于 “右子数组的首位元素” 对应的索引；因此考虑使用二分法查找 “右子数组的首位元素” 。
+     */
+    // 时间复杂度：O(logn)
+    func missingNumberBS(_ nums: [Int]) -> Int {
         var l = 0, r = nums.count - 1
         while l <= r {
             let mid = l + (r - l) >> 1
             if nums[mid] == mid {
+                // mid左侧都顺序，归为左子数组
                 l = mid + 1
             } else {
+                // mid已经处在右子树组了，向左缩小边界范围
                 r = mid - 1
             }
         }
@@ -796,14 +922,52 @@ class SwordOfferAlgo {
         return l
     }
     
+    /**
+     二、暴力法：只要比较数组下标和该下标对应的值即可，再排除 缺失0 和 缺失最后一项 两个特殊情况。
+     */
+    // 时间复杂度：O(n)
+    func missingNumber(_ nums: [Int]) -> Int {
+        if nums.count == 0 {
+            return 0
+        }
+        
+        if nums[0] == 1 {
+            return 0
+        }
+        
+        for i in 0..<nums.count {
+            if nums[i] != i {
+                return i
+            }
+        }
+    
+        return nums.count
+    }
+    
     //MARK: - 剑指 Offer 58 - II. 左旋转字符串
-    func reverseLeftWords(_ s: String, _ n: Int) -> String {
+    /**
+     字符串的左旋转操作是把字符串前面的若干个字符转移到字符串的尾部。
+     请定义一个函数实现字符串左旋转操作的功能。比如，输入字符串"abcdefg"和数字2，该函数将返回左旋转两位得到的结果"cdefgab"。
+     */
+    // 字符串切片
+    func reverseLeftWords1(_ s: String, _ n: Int) -> String {
         return s[n..<s.count] + s[0..<n]
     }
     
     //MARK: - 剑指 Offer 62. 圆圈中最后剩下的数字
+    /**
+     题目：0 到 n-1这n个数字排成一个圆圈，从数字0开始，每次从这个圆圈里删除第m个数字（删除后从下一个数字开始计数）。
+     求出这个圆圈里剩下的最后一个数字。
+     例如，0、1、2、3、4这5个数字组成一个圆圈，从数字0开始每次删除第3个数字，则删除的前4个数字依次是2、0、4、1，因此最后剩下的数字是3。
+     输入: n = 5, m = 3
+     输出: 3
+     
+     【约瑟夫环问题】
+     实际画图递推分析一下总结规律
+     */
     func lastRemaining(_ n: Int, _ m: Int) -> Int {
         var ans = 0
+        // 最后一轮剩下2个人，所以从2开始反推
         for i in 2...n {
             ans = (ans + m) % i
         }
@@ -811,6 +975,14 @@ class SwordOfferAlgo {
     }
     
     //MARK: - 剑指 Offer 61. 扑克牌中的顺子
+    /**
+     题目：从若干副扑克牌中随机抽 5 张牌，判断是不是一个顺子，即这5张牌是不是连续的。2～10为数字本身，A为1，J为11，Q为12，K为13，而大、小王为 0 ，可以看成任意数字。A 不能视为 14。
+
+     分析：（顺子特性）
+     1、大王、小王 可当任意的牌，直接跳过以下逻辑处理
+     2、不能有重复的牌
+     3、最大牌 - 最小牌 < 5 则可构成顺子
+     */
     func isStraight(_ nums: [Int]) -> Bool {
         var repeatSet = Set<Int>()
         var minVal = 14, maxVal = 0

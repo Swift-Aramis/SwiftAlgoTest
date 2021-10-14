@@ -15,7 +15,9 @@ extension LeetCode {
         // [3,9,20,null,null,15,7]
         let treeAlgo = LeetCodeTree()
         let root = TreeNode(3, TreeNode(9), TreeNode(20, TreeNode(15), TreeNode(7)))
-        treeAlgo.levelOrder(root)
+        let arr = treeAlgo.levelOrder(root)
+        print("=== Tree levelOrder ===")
+        print(arr)
     }
     
     //MARK: - 617. 合并二叉树
@@ -89,8 +91,8 @@ class LeetCodeTree {
             return
         }
         
-        preOrder(root?.left)
-        preOrder(root?.right)
+        afterOrder(root?.left)
+        afterOrder(root?.right)
         if let val = root?.val {
             inorderArray.append(val)
         }
@@ -244,7 +246,6 @@ class LeetCodeTree {
      2、对称节点分别入队
      3、分别出队，比较元素是否相等，若不相等，结束
      */
-
     func isSymmetric2(_ root: TreeNode?) -> Bool {
         if root == nil {
             return true
@@ -283,8 +284,15 @@ class LeetCodeTree {
         return false
     }
     
+    /**
+     注：continue break return 在 while 中的作用
+     * continue 用于跳过循环中的一个迭代。（不执行循环体内 continue 后面的语句，直接进行下一循环）
+     * break 语句用于跳出循环。（结束整个循环）
+     * return语句会终止函数的执行并返回函数的值。（结束整个函数）
+     */
+    
     //MARK: - 104. 二叉树的最大深度
-    // 1、深度优先搜索
+    // 1、深度优先搜索(Depth-First Search,DFS)
     func maxDepth(_ root: TreeNode?) -> Int {
         if root == nil {
             return 0
@@ -293,8 +301,8 @@ class LeetCodeTree {
         return max(maxDepth(root?.left), maxDepth(root?.right)) + 1
     }
     
-    // 广度优先搜索
-    func maxDepth1(_ root: TreeNode?) -> Int {
+    // 广度优先搜索(Breadth-First Search,BFS)
+    func maxDepthBFS(_ root: TreeNode?) -> Int {
         if root == nil {
             return 0
         }
@@ -321,7 +329,8 @@ class LeetCodeTree {
     
     //MARK: - 543. 二叉树的直径
     /**
-     给定一棵二叉树，你需要计算它的直径长度。一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过也可能不穿过根结点。
+     给定一棵二叉树，你需要计算它的直径长度。
+     一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过也可能不穿过根结点。
      */
     var diameterAns = 0
     func diameterOfBinaryTree(_ root: TreeNode?) -> Int {
@@ -335,7 +344,8 @@ class LeetCodeTree {
         return diameterAns - 1 // 节点数减一，即为节点之间的路径
     }
     
-    @discardableResult func depth(_ root: TreeNode?) -> Int { // 深度优先搜索
+    // 深度优先搜索
+    @discardableResult func depth(_ root: TreeNode?) -> Int {
         if root == nil {
             return 0
         }
