@@ -54,7 +54,7 @@ class LeetCode {
     
     //MARK: - Public
     
-    // 循环创建链表
+    // 通过数组创建链表
     public func generateLinkList(arr: [Int]) -> ListNode {
         let dummy = ListNode()
         var head: ListNode = dummy

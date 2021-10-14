@@ -29,14 +29,15 @@ class BinarySearchAlgo {
         
         var low = 0
         var high = arr.count - 1
-        // case1: low<=high
+        // 注意1: low<=high
         while low <= high {
-            // case2: mid = low + (high - low) >> 1 等价于 low+(high-low)/2
+            // 注意2: mid = low + (high - low) >> 1 等价于 low+(high-low)/2
             let mid = low + (high - low) >> 1
             if arr[mid] == value {
+                // 得到结果
                 return mid
             } else if arr[mid] < value {
-                // case3: 如果直接写成 low=mid 或者 high=mid，就可能会发生死循环
+                // 注意3: 如果直接写成 low=mid 或者 high=mid，就可能会发生死循环
                 low = mid + 1
             } else {
                 high = mid - 1
