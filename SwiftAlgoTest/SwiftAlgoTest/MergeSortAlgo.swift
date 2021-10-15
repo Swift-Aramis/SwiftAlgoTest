@@ -18,7 +18,6 @@ import Foundation
  1、分割序列得到子序列，直到无法分割
  2、子序列排序 & 子序列合并
  */
-
 class MergeSortAlgo {
     
     func mergeSort<T: Comparable>(elements: [T]) -> [T] {
@@ -27,6 +26,7 @@ class MergeSortAlgo {
             return array
         }
         
+        //MARK: - 关键逻辑：1、递归分割,最终只剩一个元素；2、两个有序数组合并
         let middle = array.count / 2
         let left = Array(array[0..<middle])
         let right = Array(array[middle..<array.count])

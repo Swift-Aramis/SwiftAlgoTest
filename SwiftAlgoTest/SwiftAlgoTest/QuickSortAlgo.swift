@@ -101,8 +101,12 @@ class QuickSortAlgo {
     //MARK: - 快速排序：while循环查找partion
     
     func quickSortWhileCycle<T: Comparable>(arr: inout [T], left: Int, right: Int) {
+        //MARK: - 关键逻辑：1、子数组长度为1时，终止递归；2、原则：pivot左侧均比它小，右侧均比它大。
+        /**
+         过程：while ( i < j) 持续循环，两端移动指针，交换不符合条件的 i,j
+         */
         // 子数组长度为1时，终止递归
-        if left < right {
+        if left >= right {
             return
         }
         

@@ -174,15 +174,29 @@ extension SortAlgo {
         
         for i in 1..<array.count { // 未排序区间
             let cur = array[i] // 当前要插入的值
-            var preIndex = i - 1
             
+            //MARK: - 关键逻辑：如何向前插入当前值cur
+            /**
+             过程解释：
+             已排序           未排序
+             3                    2 4 5
+             
+             若 3 > 2，将 3 后移
+             3 3 4 5
+             
+             找到最终位置后，将该位置的值覆盖为cur
+             2 3 4 5
+             */
+            
+            // 已排序区间的右边界 (i - 1)
+            var preIndex = i - 1
             // 循环遍历已排序区间，寻找比 元素cur 小的下标位置，遍历过程中，如果元素值大于cur，将元素后移，继续向前查找
             while preIndex >= 0, array[preIndex] > cur {
                 array[preIndex + 1] = array[preIndex]
                 preIndex -= 1
             }
             
-            // 注意：preIndex会在循环里-1，然后循环终止，所以下面要使用preIndex+1，可以写一个数组理解下
+            // 注意：preIndex会在循环里-1，然后循环终止，所以下面要使用preIndex+1，可以写一个数组理解一下
             array[preIndex + 1] = cur
         }
         
@@ -240,6 +254,7 @@ extension SortAlgo {
             return array
         }
         
+        //MARK: - 关键逻辑：查找未排序区间最小元素，然后替换到已排序区间末尾
         for i in 0..<array.count - 1 { // 依次循环(计数)
             var minIndex = i // 初始值为已排序区间最后一个元素（123 最大值3）
             for j in i+1..<array.count { // 未排序区间范围

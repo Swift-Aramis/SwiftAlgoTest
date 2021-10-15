@@ -18,6 +18,8 @@ class ViewController: UIViewController {
         // 链表
         // LinkListTest()
         
+        let reverseStr = LeetCodeReverse().reverseStr("abcdefg", 2)
+        print("reverseStr === \(reverseStr)")
     }
 
 }

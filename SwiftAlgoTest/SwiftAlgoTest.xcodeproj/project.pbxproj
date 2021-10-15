@@ -20,6 +20,7 @@
 		B83D908626DCBAEE006BE57D /* StackAlgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83D908526DCBAEE006BE57D /* StackAlgo.swift */; };
 		B83D908826DCC613006BE57D /* QueueAlgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83D908726DCC613006BE57D /* QueueAlgo.swift */; };
 		B83D908A26DCD998006BE57D /* TreeAlgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83D908926DCD998006BE57D /* TreeAlgo.swift */; };
+		B85C048827190FF500D6BE99 /* LeetCodeReverse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85C048727190FF500D6BE99 /* LeetCodeReverse.swift */; };
 		B8838CF826F0801500B9F2E1 /* SwordOfferAlgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8838CF726F0801400B9F2E1 /* SwordOfferAlgo.swift */; };
 		B8838CFA26F0803100B9F2E1 /* SwordOfferQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8838CF926F0803100B9F2E1 /* SwordOfferQueue.swift */; };
 		B884D1A126EF2E2F00622B0C /* LeetCodeStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B884D1A026EF2E2F00622B0C /* LeetCodeStack.swift */; };
@@ -48,6 +49,7 @@
 		B83D908526DCBAEE006BE57D /* StackAlgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackAlgo.swift; sourceTree = "<group>"; };
 		B83D908726DCC613006BE57D /* QueueAlgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueAlgo.swift; sourceTree = "<group>"; };
 		B83D908926DCD998006BE57D /* TreeAlgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeAlgo.swift; sourceTree = "<group>"; };
+		B85C048727190FF500D6BE99 /* LeetCodeReverse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeetCodeReverse.swift; sourceTree = "<group>"; };
 		B8838CF726F0801400B9F2E1 /* SwordOfferAlgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwordOfferAlgo.swift; sourceTree = "<group>"; };
 		B8838CF926F0803100B9F2E1 /* SwordOfferQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwordOfferQueue.swift; sourceTree = "<group>"; };
 		B884D1A026EF2E2F00622B0C /* LeetCodeStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeetCodeStack.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				B884D1A226EF5A9C00622B0C /* LeetCodeLogic.swift */,
 				B8838CF726F0801400B9F2E1 /* SwordOfferAlgo.swift */,
 				B8838CF926F0803100B9F2E1 /* SwordOfferQueue.swift */,
+				B85C048727190FF500D6BE99 /* LeetCodeReverse.swift */,
 				B83D907526D8D135006BE57D /* Main.storyboard */,
 				B83D907826D8D136006BE57D /* Assets.xcassets */,
 				B83D907A26D8D136006BE57D /* LaunchScreen.storyboard */,
@@ -189,6 +192,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B83D908626DCBAEE006BE57D /* StackAlgo.swift in Sources */,
+				B85C048827190FF500D6BE99 /* LeetCodeReverse.swift in Sources */,
 				B892D59E26E1D19C00F11662 /* LeetCodeNum.swift in Sources */,
 				B892D5A426E1D1DC00F11662 /* LeetCodeTree.swift in Sources */,
 				B83D908A26DCD998006BE57D /* TreeAlgo.swift in Sources */,
