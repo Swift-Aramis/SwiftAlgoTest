@@ -72,6 +72,43 @@ class LeetCodeTree {
         inorder(root?.right)
     }
     
+    // 非递归中序遍历
+    /**
+     实现思路，中序遍历是要先遍历左子树，然后跟节点，最后遍历右子树。
+     1、所以需要先把跟节点入栈然后在一直把左子树入栈。直到左子树为空，此时停止入栈。
+     2、栈顶节点就是我们需要访问的节点，取栈顶节点p并访问。
+     3、然后该节点可能有右子树，所以访问完节点p后还要判断p的右子树是否为空，如果为空则接下来要访问的节点在栈顶，所以将p赋值为null。如果不为空则将p赋值为其右子树的值。 循环结束的条件是p不为空或者栈不为空。
+     */
+    func inorderTraversalNormal(_ root: TreeNode?) -> [Int] {
+        if root == nil {
+            return []
+        }
+            
+        var ans = [Int]()
+        var stack = [TreeNode]()
+        stack.append(root!)
+        
+        var curNode: TreeNode? = root
+        while curNode != nil, stack.count > 0 {
+            while curNode != nil {
+                // 根节点入栈
+                stack.append(curNode!)
+                // 左子树入栈
+                curNode = curNode?.left
+            }
+            
+            // 左子树出栈
+            curNode = stack.popLast()
+            ans.append(curNode!.val)
+            
+            // 右子树重启循环路径
+            curNode = curNode?.right
+        }
+        
+        return ans
+    }
+        
+    
     // 二叉树的前序遍历
     func preOrder(_ root: TreeNode?) {
         if root == nil {
@@ -85,6 +122,36 @@ class LeetCodeTree {
         preOrder(root?.right)
     }
     
+    // 非递归前序遍历
+    /**
+     实现思路，先序遍历是要先访问根节点，然后再去访问左子树以及右子树，这明显是递归定义，但这里是用栈来实现的。
+     首先需要先从栈顶取出节点，然后访问该节点，如果该节点不为空，则访问该节点，同时把该节点的右子树先入栈，然后左子树入栈。
+     循环结束的条件是栈中不再有节点。
+     */
+    func preorderTraversal(_ root: TreeNode?) -> [Int] {
+        if root == nil {
+            return []
+        }
+        
+        var ans = [Int]()
+        
+        var stack = [TreeNode]()
+        stack.append(root!)
+        while stack.count > 0 {
+            let curNode: TreeNode = stack.removeLast()
+            ans.append(curNode.val)
+            
+            if curNode.right != nil {
+                stack.append(curNode.right!)
+            }
+            if curNode.left != nil {
+                stack.append(curNode.left!)
+            }
+        }
+        
+        return ans
+    }
+    
     // 二叉树的后序遍历
     func afterOrder(_ root: TreeNode?) {
         if root == nil {
@@ -96,6 +163,46 @@ class LeetCodeTree {
         if let val = root?.val {
             inorderArray.append(val)
         }
+    }
+    
+    // 非递归后续遍历
+    /**
+     实现思路，在进行后序遍历的时候是先要遍历左子树，然后在遍历右子树，最后才遍历根节点。
+     1、所以在非递归的实现中要先把根节点入栈。然后再把左子树入栈直到左子树为空，此时停止入栈。此时栈顶就是需要访问的元素，所以直接取出访问p。
+     2、在访问结束后，还要判断被访问的节点p是否为栈顶节点的左子树，如果是的话那么还需要访问栈顶节点的右子树，所以将栈顶节点的右子树取出赋值给p。如果不是的话则说明栈顶节点的右子树已经访问完了，那么现在可以访问栈顶节点了，所以此时将p赋值为null。
+     3、判断结束的条件是p不为空或者栈不为空，如果两个条件都不满足的话，说明所有节点都已经访问完成。
+     */
+    func postorderTraversal(_ root: TreeNode?) -> [Int] {
+        if root == nil {
+            return []
+        }
+        
+        var ans = [Int]()
+        var stack = [TreeNode]()
+        var curNode: TreeNode? = root
+        var prevNode: TreeNode? = nil
+        while curNode != nil || stack.count > 0 {
+            while curNode != nil {
+                stack.append(curNode!)
+                curNode = curNode?.left
+            }
+            
+            curNode = stack.popLast()
+            
+            // curNode?.right == nil 证明是左叶子节点
+            // curNode?.right == prevNode 证明是右叶子节点
+            if curNode?.right == nil || curNode?.right === prevNode  {
+                ans.append(curNode!.val)
+                prevNode = curNode
+                curNode = nil
+            } else {
+                // 如果该pop节点有右子树，重新入栈，继续切到右子树节点
+                stack.append(curNode!)
+                curNode = curNode?.right
+            }
+        }
+        
+        return ans
     }
     
     // 二叉树的广度优先级遍历
