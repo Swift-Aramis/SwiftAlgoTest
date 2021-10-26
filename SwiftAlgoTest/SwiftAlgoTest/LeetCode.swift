@@ -41,15 +41,16 @@ class LeetCode {
     //MARK: - Test
     func testAlgo() {
         // 数字
-//        testNumAlgo()
+        testNumAlgo()
         
         // 串
-        testStringAlgo()
+//        testStringAlgo()
         
         // 二叉树
 //        testTreeAlgo()
         
-        myAtoi("42")
+//        let atoi = myAtoi("42")
+//        print("myAtoi === \(myAtoi)")
     }
     
     //MARK: - Public

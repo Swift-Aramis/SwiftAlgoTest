@@ -15,11 +15,29 @@ class ViewController: UIViewController {
         // LeetCode test
         LeetCode().testAlgo()
         
+        
+        
+        let convert10To26 = MeetAlgo()
+        convert10To26.convert10To26SeqNRecursion(60)
+        print("convert10To26.seqN === \(convert10To26.seqN)")
+        
+        let seqN = convert10To26.convert10To26SeqN(60)
+        print("seqN === \(seqN)")
+        
+        let seqN2 = convert10To26.caculate(at: 60)
+        print("seqN2 === \(seqN2)")
+
         // 链表
         // LinkListTest()
         
-        let reverseStr = LeetCodeReverse().reverseStr("abcdefg", 2)
-        print("reverseStr === \(reverseStr)")
+//        let reverseStr = LeetCodeReverse().reverseStr("abcdefg", 2)
+//        print("reverseStr === \(reverseStr)")
+        
+//        let kArray = DailyPractice().GetLeastNumbers_Solution([4,5,1,6,2,7,3,8], 4)
+//        print("kArray === \(kArray)")
+        
+       
+        
     }
 
 }

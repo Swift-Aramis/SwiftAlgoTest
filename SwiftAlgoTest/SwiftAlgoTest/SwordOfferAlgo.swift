@@ -9,6 +9,61 @@ import Foundation
 
 class SwordOfferAlgo {
     
+    //MARK: - 剑指 Offer 48. 最长不含重复字符的子字符串
+    /**
+     难度：中等
+     题目：请从字符串中找出一个最长的不包含重复字符的子字符串，计算该最长子字符串的长度。
+     
+     示例：
+     输入: "abcabcbb"
+     输出: 3
+     解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+     
+     输入: "bbbbb"
+     输出: 1
+     解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+     
+     输入: "pwwkew"
+     输出: 3
+     解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+     
+     请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
+     */
+    func lengthOfLongestSubstring(_ s: String) -> Int {
+        // 校验
+        guard s.count > 1 else {
+            return s.count
+        }
+        
+        /**
+         解决思路：双指针 + 哈希表
+         最大长度：maxLen
+         边界指针：left
+         下标位置：i
+         是否重复校验及记录重复元素下标：dic[c] = index
+         */
+        var maxLen = 0
+        var left = 0, i = 0
+        var dic: [Character: Int] = [Character: Int]()
+        for c in s {
+            if dic.keys.contains(c) {
+                // 剔除子序列最前面的重复元素
+                var lastIndex = dic[c] ?? 0
+                lastIndex += 1
+                // 重置left指针指向
+                left = max(left, lastIndex)
+            }
+            
+            // 存储元素对应下标位置
+            dic[c] = i
+            maxLen = max(maxLen, i - left + 1)
+            
+            i += 1
+        }
+        
+        return maxLen
+    }
+    
     //MARK: - 剑指 Offer 10- I. 斐波那契数列
     // 使用「滚动数组思想」把空间复杂度优化成 O(1)
     func fib(_ n: Int) -> Int {
@@ -215,19 +270,6 @@ class SwordOfferAlgo {
     }
     
     //MARK: - 剑指 Offer 03. 数组中重复的数字
-    // 超时
-    func findRepeatNumber1(_ nums: [Int]) -> Int {
-        var tmpArr = [Int]()
-        for item in nums {
-            if tmpArr.contains(item) {
-                return item
-            }
-            tmpArr.append(item)
-        }
-        
-        return -1
-    }
-    
     // 原地交换
     // 索引 和 值 一对多 1...n-1
     func findRepeatNumber(_ nums: [Int]) -> Int {
@@ -248,6 +290,18 @@ class SwordOfferAlgo {
             // 索引 值 一一对应
             arr[i] = arr[val]
             arr[val] = val
+        }
+        
+        return -1
+    }
+    
+    func findRepeatNumberOverTime(_ nums: [Int]) -> Int {
+        var tmpArr = [Int]()
+        for item in nums {
+            if tmpArr.contains(item) {
+                return item
+            }
+            tmpArr.append(item)
         }
         
         return -1

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B8098A17271FB9D800F99D13 /* DailyPractice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8098A16271FB9D800F99D13 /* DailyPractice.swift */; };
+		B8098A1927200C6000F99D13 /* SingleLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8098A1827200C6000F99D13 /* SingleLinkedList.swift */; };
+		B8098A1B272044EE00F99D13 /* MeetAlgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8098A1A272044EE00F99D13 /* MeetAlgo.swift */; };
+		B8098A1D272797C500F99D13 /* LeetCodeEveryday.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8098A1C272797C500F99D13 /* LeetCodeEveryday.swift */; };
 		B83AA8EC26DDD4C100A8B650 /* SortAlgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83AA8EB26DDD4C100A8B650 /* SortAlgo.swift */; };
 		B83AA8EE26DE126800A8B650 /* QuickSortAlgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83AA8ED26DE126800A8B650 /* QuickSortAlgo.swift */; };
 		B83AA8F026DE127A00A8B650 /* MergeSortAlgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83AA8EF26DE127A00A8B650 /* MergeSortAlgo.swift */; };
@@ -34,6 +38,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B8098A16271FB9D800F99D13 /* DailyPractice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyPractice.swift; sourceTree = "<group>"; };
+		B8098A1827200C6000F99D13 /* SingleLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLinkedList.swift; sourceTree = "<group>"; };
+		B8098A1A272044EE00F99D13 /* MeetAlgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetAlgo.swift; sourceTree = "<group>"; };
+		B8098A1C272797C500F99D13 /* LeetCodeEveryday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeetCodeEveryday.swift; sourceTree = "<group>"; };
 		B83AA8EB26DDD4C100A8B650 /* SortAlgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortAlgo.swift; sourceTree = "<group>"; };
 		B83AA8ED26DE126800A8B650 /* QuickSortAlgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickSortAlgo.swift; sourceTree = "<group>"; };
 		B83AA8EF26DE127A00A8B650 /* MergeSortAlgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MergeSortAlgo.swift; sourceTree = "<group>"; };
@@ -96,6 +104,7 @@
 				B83D907126D8D135006BE57D /* SceneDelegate.swift */,
 				B83D907326D8D135006BE57D /* ViewController.swift */,
 				B83D908326D8D158006BE57D /* LinkListAlgo.swift */,
+				B8098A1827200C6000F99D13 /* SingleLinkedList.swift */,
 				B83D908526DCBAEE006BE57D /* StackAlgo.swift */,
 				B83D908726DCC613006BE57D /* QueueAlgo.swift */,
 				B83D908926DCD998006BE57D /* TreeAlgo.swift */,
@@ -106,6 +115,7 @@
 				B892D59B26E0DF7200F11662 /* LeetCode.swift */,
 				B892D59D26E1D19C00F11662 /* LeetCodeNum.swift */,
 				B892D59F26E1D1A700F11662 /* LeetCodeString.swift */,
+				B8098A1C272797C500F99D13 /* LeetCodeEveryday.swift */,
 				B892D5A126E1D1C900F11662 /* LeetCodeLinkList.swift */,
 				B892D5A326E1D1DC00F11662 /* LeetCodeTree.swift */,
 				B884D1A026EF2E2F00622B0C /* LeetCodeStack.swift */,
@@ -113,6 +123,8 @@
 				B8838CF726F0801400B9F2E1 /* SwordOfferAlgo.swift */,
 				B8838CF926F0803100B9F2E1 /* SwordOfferQueue.swift */,
 				B85C048727190FF500D6BE99 /* LeetCodeReverse.swift */,
+				B8098A16271FB9D800F99D13 /* DailyPractice.swift */,
+				B8098A1A272044EE00F99D13 /* MeetAlgo.swift */,
 				B83D907526D8D135006BE57D /* Main.storyboard */,
 				B83D907826D8D136006BE57D /* Assets.xcassets */,
 				B83D907A26D8D136006BE57D /* LaunchScreen.storyboard */,
@@ -199,18 +211,22 @@
 				B83AA8EE26DE126800A8B650 /* QuickSortAlgo.swift in Sources */,
 				B884D1A126EF2E2F00622B0C /* LeetCodeStack.swift in Sources */,
 				B83D907426D8D135006BE57D /* ViewController.swift in Sources */,
+				B8098A1D272797C500F99D13 /* LeetCodeEveryday.swift in Sources */,
 				B83D908826DCC613006BE57D /* QueueAlgo.swift in Sources */,
 				B83D907026D8D135006BE57D /* AppDelegate.swift in Sources */,
 				B83AA8EC26DDD4C100A8B650 /* SortAlgo.swift in Sources */,
 				B8838CF826F0801500B9F2E1 /* SwordOfferAlgo.swift in Sources */,
+				B8098A1927200C6000F99D13 /* SingleLinkedList.swift in Sources */,
 				B83D908426D8D158006BE57D /* LinkListAlgo.swift in Sources */,
 				B83D907226D8D135006BE57D /* SceneDelegate.swift in Sources */,
 				B892D59C26E0DF7200F11662 /* LeetCode.swift in Sources */,
 				B892D5A026E1D1A700F11662 /* LeetCodeString.swift in Sources */,
 				B83AA8F026DE127A00A8B650 /* MergeSortAlgo.swift in Sources */,
+				B8098A1B272044EE00F99D13 /* MeetAlgo.swift in Sources */,
 				B892D5A226E1D1C900F11662 /* LeetCodeLinkList.swift in Sources */,
 				B8CDB1A226E71C4800F4E230 /* BinarySearchAlgo.swift in Sources */,
 				B8838CFA26F0803100B9F2E1 /* SwordOfferQueue.swift in Sources */,
+				B8098A17271FB9D800F99D13 /* DailyPractice.swift in Sources */,
 				B884D1A326EF5A9C00622B0C /* LeetCodeLogic.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

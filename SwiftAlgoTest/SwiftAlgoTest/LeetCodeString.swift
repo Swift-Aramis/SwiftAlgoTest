@@ -253,15 +253,19 @@ extension LeetCode {
     //MARK: - 3、无重复字符的最长子串
     /**
      给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
+     
      输入: s = "abcabcbb" => abc
      输出: 3
+     解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+
      输入: s = "bbbbb" => b
      输出: 1
+     
      输入: s = "pwwkew" => wke
      输出: 3
+     
      输入: s = "" => nil
      输出: 0
-     解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
      */
     
     /**
@@ -395,8 +399,53 @@ extension LeetCode {
      第三步，找状态转移方程。
      */
     func longestCommonSubsequence(_ text1: String, _ text2: String) -> Int {
-
         return 0
+    }
+    
+    //MARK: - 14. 最长公共前缀
+    /**
+     题目：编写一个函数来查找字符串数组中的最长公共前缀。
+     如果不存在公共前缀，返回空字符串 ""。
+
+     示例：
+     输入：strs = ["flower","flow","flight"]
+     输出："fl"
+     */
+    
+    /**
+     题解：
+     1、当字符串数组长度为 0 时则公共前缀为空，直接返回
+     2、令最长公共前缀 ans 的值为第一个字符串，进行初始化
+     3、遍历后面的字符串，依次将其与 ans 进行比较，两两找出公共前缀，最终结果即为最长公共前缀
+     4、如果查找过程中出现了 ans 为空的情况，则公共前缀不存在直接返回
+     5、时间复杂度：O(s)，s 为所有字符串的长度之和
+     */
+    func longestCommonPrefix(_ strs: [String]) -> String {
+        if strs.count == 0 {
+            return ""
+        }
+        
+        var ans = strs.first!
+        for i in 1..<strs.count {
+            let str = strs[i]
+            let len = min(ans.count, str.count)
+            // 比较 ans 和 当前str
+            var j = 0
+            while j < len {
+                if str[j] != ans[j] {
+                    break
+                }
+                j += 1
+            }
+            ans = ans[0..<j]
+            
+            // 如果ans为空，说明已经遇到无公共前缀的字符串了，没必要继续遍历了
+            if ans.count == 0 {
+                return ""
+            }
+        }
+
+        return ans
     }
     
     //MARK: - 8. 字符串转换整数 (atoi)

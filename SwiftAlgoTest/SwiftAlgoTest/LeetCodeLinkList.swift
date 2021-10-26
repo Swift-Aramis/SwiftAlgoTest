@@ -124,8 +124,7 @@ extension LeetCode {
         return newHead
     }
     
-    func reverseList1(_ head: ListNode?) -> ListNode? {
-        
+    func reverseListNormal(_ head: ListNode?) -> ListNode? {
         var pre: ListNode? = nil
         var curNode: ListNode? = head
         while curNode != nil {
