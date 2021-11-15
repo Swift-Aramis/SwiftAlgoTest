@@ -22,6 +22,8 @@ class MeetAlgo {
         }
         
     }
+    
+    //MARK: - 两数之和
     /**
      编码题1：
      给出两个非空的单向链表来表示两个非负的整数。
@@ -116,6 +118,65 @@ class MeetAlgo {
         
         curVal = curVal / 26
         convert10To26SeqNRecursion(curVal)
+    }
+    
+    //MARK: - 107. 二叉树的层序遍历 II
+    /**
+     #给定一个二叉树，返回其节点值自底向上的层序遍历。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）
+
+     #例如：
+     #给定二叉树 [3,9,20,null,null,15,7],
+
+     #    3
+     #   / \
+     #  9  20
+     #    /  \
+     #   15   7
+     #返回其自底向上的层序遍历为：
+
+     # [
+     #   [15,7],
+     #   [9,20],
+     #   [3]
+     # ]
+     
+     题目：给定一个二叉树，返回其节点值自底向上的层序遍历。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）
+     思路：二叉树正常层序遍历，然后数组reverse
+     */
+    func levelOrderBottom(_ root: TreeNode?) -> [[Int]] {
+        var ans = [[Int]]()
+        if root == nil {
+            return ans
+        }
+        
+        var queue = [TreeNode]()
+        queue.append(root!)
+        while queue.count > 0 {
+            // 单层处理
+            let levelLen = queue.count
+            var levelArr = [Int]()
+            for _ in 0..<levelLen {
+                // 依次出队
+                let node = queue.first
+                queue.removeFirst()
+                if let val = node?.val {
+                    levelArr.append(val)
+                }
+                
+                // 依次入队
+                if node?.left != nil {
+                    queue.append(node!.left!)
+                }
+                
+                if node?.right != nil {
+                    queue.append(node!.right!)
+                }
+            }
+            
+            ans.insert(levelArr, at: 0)
+        }
+        
+        return ans
     }
     
 }

@@ -216,4 +216,45 @@ extension LeetCode {
         return nodeA
     }
     
+    //MARK: - 24. 两两交换链表中的节点
+    /**
+     题目：
+     给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。
+     你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+     示例：
+     输入：head = [1,2,3,4]
+     输出：[2,1,4,3]
+     分析：类似链表反转
+     */
+    
+    // 递归
+    func swapPairsRecursive(_ head: ListNode?) -> ListNode? {
+        if head == nil || head?.next == nil {
+            return head
+        }
+        
+        let newHead = head?.next
+        head?.next = swapPairsRecursive(newHead?.next)
+        newHead?.next = head
+        return newHead
+    }
+    
+    // 迭代
+    func swapPairs(_ head: ListNode?) -> ListNode? {
+        let dummy: ListNode? = ListNode()
+        dummy?.next = head
+        
+        var cur: ListNode? = dummy
+        while cur?.next != nil, cur?.next?.next != nil {
+            let node1 = cur?.next
+            let node2 = cur?.next?.next
+            cur?.next = node2
+            node1?.next = node2?.next
+            node2?.next = node1
+            cur = node1
+        }
+        
+        return dummy?.next
+    }
+    
 }

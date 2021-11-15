@@ -302,6 +302,24 @@ extension LeetCode {
     }
 
     //MARK: - 20. 有效的括号
+    /**
+     题目：给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+     有效字符串需满足：
+     左括号必须用相同类型的右括号闭合。
+     左括号必须以正确的顺序闭合。
+     
+     示例：
+     输入：s = "()"
+     输出：true
+     输入：s = "()[]{}"
+     输出：true
+     输入：s = "(]"
+     输出：false
+     输入：s = "([)]"
+     输出：false
+     输入：s = "{[]}"
+     输出：true
+     */
     func isValid(_ s: String) -> Bool {
         // s长度必须是偶数，才能保证括号对称
         if s.count % 2 != 0 {
@@ -449,61 +467,88 @@ extension LeetCode {
     }
     
     //MARK: - 8. 字符串转换整数 (atoi)
-    func myAtoi(_ s: String) -> Int {
-        var arr = [String]()
-        for c in s {
-            let char = String(c)
-            // 去除空格
-            if char != " " {
-                arr.append(char)
-            }
-        }
-        
-        // 排除极端情况
-        if arr.count == 0 {
+    //MARK: - 剑指 Offer 67. 把字符串转换成整数
+    /**
+     题目：写一个函数 StrToInt，实现把字符串转换成整数这个功能。不能使用 atoi 或者其他类似的库函数。
+
+     首先，该函数会根据需要丢弃无用的开头空格字符，直到寻找到第一个非空格的字符为止。
+
+     当我们寻找到的第一个非空字符为正或者负号时，则将该符号与之后面尽可能多的连续数字组合起来，作为该整数的正负号；
+     假如第一个非空字符是数字，则直接将其与之后连续的数字字符组合起来，形成整数。
+
+     该字符串除了有效的整数部分之后也可能会存在多余的字符，这些字符可以被忽略，它们对于函数不应该造成影响。
+
+     注意：假如该字符串中的第一个非空格字符不是一个有效整数字符、字符串为空或字符串仅包含空白字符时，则你的函数不需要进行转换。
+
+     在任何情况下，若函数不能进行有效的转换时，请返回 0。
+
+     说明：
+     假设我们的环境只能存储 32 位大小的有符号整数，那么其数值范围为 [−231,  231 − 1]。
+     如果数值超过这个范围，请返回  INT_MAX (231 − 1) 或 INT_MIN (−231) 。
+     */
+    func strToInt(_ str: String) -> Int {
+        // 特判
+        guard str.count > 0 else {
             return 0
         }
         
-        // 获取符号
+        // 1、处理数据源：字符串 -> 数组
+        var arr = [Character]()
+        for c in str {
+            // 去除空格
+            if c != " " {
+                arr.append(c)
+            }
+        }
+        
+        // 特判
+        guard arr.count > 0 else {
+            return 0
+        }
+        
+        // 2、处理符号：首个元素
         var sign = 1
-        let firstChar = arr.first
-        if firstChar == "-" {
+        let signElem = arr.first!
+        if signElem == "+" {
+            arr.removeFirst()
+        } else if signElem == "-" {
             sign = -1
             arr.removeFirst()
-        } else if firstChar == "+" {
-            arr.removeFirst()
         }
         
-        var res = 0, last = 0
-        for char in arr {
-            guard let curInt = Int(char) else {
+        // 3、处理元素
+        var num = 0
+        for ch in arr {
+            // 数值范围判断
+            if num > Int.max / 10 {
+                num = Int.max
                 break
             }
             
-            if curInt < 0 || curInt > 9 {
+            let intCh = Int(String(ch)) ?? -1
+            // 如果元素不是数字，结束循环
+            if intCh < 0 || intCh > 9 {
                 break
             }
             
-            last = res
-            res = res * 10 + curInt
-            
-            //如果不相等就是溢出了
-            if last != res / 10 {
-                return (sign == -1) ? Int.min : Int.max
-            }
+            num = num * 10 + intCh
         }
         
-        return res * sign
+        return sign * num
     }
+    
 }
 
 class GenerateParenthesis {
     //MARK: - 22. 括号生成
     /**
-     数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+     题目：数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
      有效括号组合需满足：左括号必须以正确的顺序闭合。
+     示例：
      输入：n = 3
      输出：["((()))","(()())","(())()","()(())","()()()"]
+     输入：n = 1
+     输出：["()"]
      */
     
     /**
@@ -516,7 +561,7 @@ class GenerateParenthesis {
 
      二、如何设计dfs搜索函数？
      最关键的问题在于搜索序列的当前位时，是选择填写左括号，还是选择填写右括号？
-     1、因为我们已经知道一个合法的括号序列，任意前缀中左括号数量一定 >= 右括号数量，因此，如果左括号数量不大于 n，我们就可以放一个左括号，来等待一个右括号来匹配。此时 + (
+     1、因为我们已经知道一个合法的括号序列，任意前缀中 左括号数量一定 >= 右括号数量，因此，如果左括号数量不大于 n，我们就可以放一个左括号，来等待一个右括号来匹配。此时 + (
      2、如果右括号数量小于左括号的数量，我们就可以放一个右括号，来使一个右括号和一个左括号相匹配。此时 + )
      
      三、递归函数设计

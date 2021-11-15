@@ -624,4 +624,189 @@ extension LeetCode {
         
         return l
     }
+    
+    //MARK: - 15. 三数之和
+    /**
+     题目：给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？
+     请你找出所有和为 0 且不重复的三元组。
+     注意：答案中不可以包含重复的三元组。
+     
+     示例：
+     输入：nums = [-1,0,1,2,-1,-4]
+     输出：[[-1,-1,2],[-1,0,1]]
+     输入：nums = []
+     输出：[]
+     输入：nums = [0]
+     输出：[]
+     */
+    
+    /**
+     a + b + c = 0
+     个人分析：a、b、c 三个数一定有正负：两正一负，两负一正
+     1、全为负的元素组成数组，两两相加判断全为正的数组里有没有满足情况；
+     2、全为正的元素组成的数组类似1处理
+     3、如果有元素 0，取出0，正负两个数组只要有绝对值相等的就可以
+     */
+    
+    /**
+     题解：排序 + 双指针
+     本题的难点在于如何去除重复解。
+     
+     算法流程：
+     1、特判（数组至少三个元素）
+     2、对数组进行排序
+     3、遍历排序后数组：
+     当前元素 i，左指针 left = i+1 递增，右指针 right = n -1 递减
+     构建出 i + left + right 对应 a + b + c
+     
+     a、如果 nums[i]大于 0，则三数之和必然无法等于 0，结束循环
+     b、对于重复元素：跳过，避免出现重复解
+     b1、当前元素 nums[i] = nums[i+1]，跳过该元素，循环 continue
+     b2、左指针，当 sum = 0 时，nums[L] = nums[L+1]，跳过L++
+     b2、右指针，当 sum = 0 时，nums[R] = nums[R-1]，跳过R--
+     */
+    func threeSum(_ nums: [Int]) -> [[Int]] {
+        // 特判
+        guard nums.count > 2 else {
+            return []
+        }
+        
+        var ans = [[Int]]()
+        
+        // 排序
+        let sortedArr = nums.sorted()
+        for i in 0..<sortedArr.count {
+            // 如果当前数字大于0，则三数之和一定大于0，所以结束循环
+            if sortedArr[i] > 0 {
+                break
+            }
+            
+            // 去重
+            if i > 0, sortedArr[i] == sortedArr[i-1] {
+                continue
+            }
+            
+            // 双指针查找
+            var l = i+1
+            var r = sortedArr.count - 1
+            while l < r {
+                let sum = sortedArr[i] + sortedArr[l] + sortedArr[r]
+                if sum == 0 {
+                    // 添加元素
+                    let tmp = [sortedArr[i], sortedArr[l], sortedArr[r]]
+                    ans.append(tmp)
+                    
+                    // 去重
+                    while l < r, sortedArr[l] == sortedArr[l+1]  {
+                        l += 1
+                    }
+                    // 去重
+                    while l < r, sortedArr[r] == sortedArr[r-1]  {
+                        r -= 1
+                    }
+                    
+                    // 继续查找
+                    l += 1
+                    r -= 1
+                    
+                } else if sum < 0 {
+                    // 说明left偏小
+                    l += 1
+                } else if sum > 0 {
+                    // 说明right偏大
+                    r -= 1
+                }
+            }
+        }
+        
+        return ans
+    }
+    
+    //MARK: - 11. 盛最多水的容器
+    /**
+     题目：给你 n 个非负整数 a1，a2，...，an，每个数代表坐标中的一个点 (i, ai) 。在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0) 。找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
+     
+     示例：
+     输入：[1,8,6,2,5,4,8,3,7]
+     输出：49
+     解释：图中垂直线代表输入数组 [1,8,6,2,5,4,8,3,7]。在此情况下，容器能够容纳水（表示为蓝色部分）的最大值为 49。
+
+     个人分析：
+     x * y 得到的结果最大
+     x：0...n
+     y:  a1，a2，...，an
+     极端分析：下标相差越远越好，数值越大越好
+     
+     计算：min(v1,v2) * 下标差值
+     */
+    /**
+     双指针思想：关键在于两端指针移动规则
+     规则：移动value较小一侧的指针
+     */
+    func maxArea(_ height: [Int]) -> Int {
+        // 特判：至少要两条线
+        guard height.count > 1 else {
+            return 0
+        }
+        
+        var ans = 0
+        var l = 0, r = height.count - 1
+        
+        while l < r {
+            let len = r - l
+            var minHeight = 0
+            
+            if height[l] < height[r] {
+                minHeight = height[l]
+                l += 1
+            } else {
+                minHeight = height[r]
+                r -= 1
+            }
+            
+            let area = len * minHeight
+            ans = max(ans, area)
+        }
+        
+        return ans
+    }
+    
+    //MARK: - 31. 下一个排列
+    /**
+     题目：
+     实现获取 下一个排列 的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列（即，组合出下一个更大的整数）。
+     如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。
+     必须 原地 修改，只允许使用额外常数空间。
+     
+     示例：
+     输入：nums = [1,2,3]
+     输出：[1,3,2]
+     
+     输入：nums = [3,2,1]
+     输出：[1,2,3]
+     312    132
+     
+     
+     
+     输入：nums = [1,1,5]
+     输出：[1,5,1]
+     
+     输入：nums = [1]
+     输出：[1]
+     
+     思考：
+     1、特判：count = 1，return
+     2、从右向左替换元素，得到第一个更大的即break
+     3、若最终没有更大的，取最小的
+     */
+    
+    func nextPermutation(_ nums: inout [Int]) {
+        guard nums.count > 1 else {
+            return
+        }
+        
+        // 双指针，从后往前替换元素
+        
+        
+    }
 }
